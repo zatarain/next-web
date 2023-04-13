@@ -1,9 +1,9 @@
 {
 	"private": true,
 	"scripts": {
-		"dev": "next",
+		"dev": "node src/server.ts",
 		"build": "next build",
-		"start": "next start",
+		"start": "node src/server.ts",
 		"type-check": "tsc",
 		"test": "jest"
 	},
