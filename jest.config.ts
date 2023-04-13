@@ -9,12 +9,14 @@ const config: JestConfigWithTsJest = {
       'ts-jest',
       {
         tsconfig: 'tsconfig.test.json',
+        isolatedModules: true,
       }
     ]
   },
-  testEnvironment: 'jsdom',
+  testRegex: '(/src/.*\\.(test|spec))\\.[tj]sx?$',
+  testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
-    '^#(.+)$': '<rootDir>/src/$1'
+    '^#(.*)$': '<rootDir>/src/$1'
   }
 }
 
