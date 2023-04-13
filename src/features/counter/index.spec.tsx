@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import { Provider } from 'react-redux'
 
-jest.mock('./counterAPI', () => ({
+jest.mock('./api', () => ({
   fetchCount: (amount: number) =>
     new Promise<{ data: number }>((resolve) =>
       setTimeout(() => resolve({ data: amount }), 500)
@@ -10,7 +10,7 @@ jest.mock('./counterAPI', () => ({
 }))
 
 import { makeStore } from '#store'
-import Counter from './Counter'
+import Counter from '.'
 
 describe('<Counter />', () => {
   it('renders the component', () => {
