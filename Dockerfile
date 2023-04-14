@@ -13,5 +13,6 @@ ENV LANG=C.UTF-8 \
 RUN npm install -g npm@9.6.4
 WORKDIR /web
 COPY . .
+RUN npm install && npm test
 ENTRYPOINT ["bin/entrypoint"]
 CMD ["npm", "run", "dev"]
