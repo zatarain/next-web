@@ -25,7 +25,7 @@ jobs:
           npm config set fund false
           npm config set audit false
       - name: Install dependencies
-        run: npm ci --no-optional
+        run: npm ci --omit=optional
       - name: Lint source code
         run: npm run lint
       - name: Build Next App

@@ -9,10 +9,11 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV LANG=C.UTF-8 \
-	NODE_ENVIRONMENT=development
+	NODE_ENV=development
 WORKDIR /web
-RUN npm config set fund false -g && npm install -g npm@9.6.4
+RUN npm config set fund false -g \
+	&& npm config set audit false -g
 COPY . .
-RUN npm install --no-fund && npm test
+RUN npm ci --omit=optional && npm test
 ENTRYPOINT ["bin/entrypoint"]
 CMD ["npm", "run", "dev"]
