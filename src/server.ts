@@ -1,7 +1,7 @@
 // require('dotenv').config();
 let script = 'dev'
 let method = 'nextDev'
-if (process.env.NODE_ENVIRONMENT == 'production') {
+if (process.env.NODE_ENV == 'production') {
 	script = 'start'
 	method = 'nextStart'
 }
