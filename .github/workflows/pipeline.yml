@@ -20,11 +20,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '19.9.0'
+      - name: Setup package manager
+        run: |
+          npm config set optional false
+          npm config set fund false
+          npm config set audit false
       - name: Install dependencies
         run: npm install --no-fund --no-audit --no-optional
       - name: Lint source code
         run: npm run lint
-      - name: Build
+      - name: Build Next App
         run: npm run build
   
   test:
