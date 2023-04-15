@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build-and-test:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -20,21 +20,66 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '19.9.0'
+          cache: 'npm'
       - name: Setup package manager
         run: |
           npm config set fund false
           npm config set audit false
       - name: Install dependencies
         run: npm ci --omit=optional
+  
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '19.9.0'
+          cache: 'npm'
       - name: Lint source code
         run: npm run lint
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '19.9.0'
+          cache: 'npm'
       - name: Build Next App
         run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}
+          path: .next
+
+  unit-tests:
+    needs: [lint, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '19.9.0'
+          cache: 'npm'
       - name: Run unit tests
         run: npm test
-
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}
+          path: .next
+      
   build-docker-image:
-    needs: [build-and-test]
+    needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
