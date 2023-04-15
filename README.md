@@ -1,2 +1,2 @@
 # next-web
-Website with Next JS
+Website with Next, Typescript and Redux
