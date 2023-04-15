@@ -40,7 +40,7 @@ jobs:
           node-version: '19.9.0'
           cache: 'npm'
       - name: Lint source code
-        run: npm run lint
+        run: npm ci --omit=optional && npm run lint
 
   build:
     needs: setup
@@ -54,7 +54,7 @@ jobs:
           node-version: '19.9.0'
           cache: 'npm'
       - name: Build Next App
-        run: npm run build
+        run: npm ci --omit=optional && npm run build
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}
