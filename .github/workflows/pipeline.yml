@@ -78,7 +78,7 @@ jobs:
       - name: Run unit tests
         run: npm ci --omit=optional && npm test
         
-  build-docker-image:
+  deployment:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
