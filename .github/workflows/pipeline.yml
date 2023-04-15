@@ -57,7 +57,7 @@ jobs:
         run: npm ci --omit=optional && npm run build
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.event.repository.name }}
+          name: ${{ github.event.repository.name }}-${{ github.sha }}
           path: .next
 
   unit-tests:
@@ -71,13 +71,13 @@ jobs:
         with:
           node-version: '19.9.0'
           cache: 'npm'
-      - name: Run unit tests
-        run: npm test
       - uses: actions/download-artifact@v3
         with:
-          name: ${{ github.event.repository.name }}
+          name: ${{ github.event.repository.name }}-${{ github.sha }}
           path: .next
-      
+      - name: Run unit tests
+        run: npm ci --omit=optional && npm test
+        
   build-docker-image:
     needs: [unit-tests]
     runs-on: ubuntu-latest
